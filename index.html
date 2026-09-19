@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-t="pageTitle">Tbe Navee NAVEE Tool</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<link rel="stylesheet" href="styles.css?v=55">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Tbe Navee <span data-t="brandSub">NAVEE Tool</span></h1>
+    <div class="head-right">
+      <span class="status" id="status" data-state="disconnected">disconnected</span>
+      <div class="head-tools">
+        <button type="button" class="theme-btn" id="btn-theme">&#9728;</button>
+        <div class="langs" id="langs" role="group">
+          <button type="button" data-lang="de" aria-pressed="true">DE</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card">
+    <h2 data-t="s1Title"></h2>
+    <p class="hint" data-t="sub"></p>
+    <p class="hint infobox" data-t="androidApp"></p>
+    <p class="hint" data-t="startHintGuide"></p>
+    <p class="hint" data-t="modelNote"></p>
+    <p class="warn" data-t="expWarn"></p>
+    <p class="hint" data-t="ownDevice"></p>
+  </div>
+
+  <div class="card">
+    <h2 data-t="s2Title"></h2>
+    <div class="row">
+      <label class="full" data-t="uidLabel"></label>
+      <input id="uid-in" type="password" inputmode="numeric" pattern="[0-9]*" autocapitalize="off" autocomplete="off" spellcheck="false" data-t-ph="uidPlaceholder">
+      <button type="button" class="help-btn" data-help="account" aria-label="Info">?</button>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" class="reveal-cb" data-reveal="uid-in"> <span data-t="revealShow"></span></label>
+    </div>
+    <p class="hint" data-t="uidNeed"></p>
+    <p class="hint"><a href="#" id="btn-clearid" data-t="btnClearId"></a></p>
+    <div class="row">
+      <label><input type="checkbox" id="showall"> <span data-t="showAll"></span></label>
+    </div>
+    <details>
+      <summary data-t="advTitle"></summary>
+      <p class="hint" data-t="advHint"></p>
+      <div class="logdrop">
+        <div class="row"><label data-t="logUploadLabel"></label><button type="button" class="help-btn" data-help="logupload" aria-label="Info">?</button></div>
+        <div class="row"><input type="file" id="log-in" accept=".log,.gz,.zip,.cfa,application/zip,application/gzip"></div>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" id="unbound"> <span data-t="unboundLabel"></span></label>
+      </div>
+      <div class="row">
+        <input id="authhex-in" type="password" autocapitalize="off" autocomplete="off" spellcheck="false" data-t-ph="authhexPlaceholder">
+        <button type="button" class="help-btn" data-help="authhex" aria-label="Info">?</button>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" class="reveal-cb" data-reveal="authhex-in"> <span data-t="revealShow"></span></label>
+      </div>
+    </details>
+    <p class="hint" data-t="controlsHint"></p>
+    <div class="btns">
+      <button class="primary span2" id="btn-conn" disabled></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 data-t="liveTitle"></h2>
+    <div class="grid">
+      <div class="tile tile-wide"><b id="t-model">-</b><small data-t="tileModel"></small></div>
+      <div class="tile"><b id="t-region">-</b><small data-t="tileRegion"></small></div>
+      <div class="tile"><b id="t-sku">-</b><small data-t="tileSku"></small></div>
+      <div class="tile"><b id="t-max">-</b><small data-t="tileMax"></small></div>
+      <div class="tile"><b id="t-limit">-</b><small data-t="tileLimit"></small></div>
+    </div>
+    <div class="row"><span class="fin"><span data-t="serialLabel"></span> <span id="t-sn">-</span></span></div>
+    <p class="hint" data-t="liveHint"></p>
+  </div>
+
+  <div class="card" id="fn-card">
+    <div class="card-head"><h2 data-t="fnTitle"></h2><button type="button" class="help-btn" data-help="fn" aria-label="Info">?</button></div>
+    <p class="hint" id="fn-model" data-t="fnConnect"></p>
+    <div class="set-row" id="row-lock" hidden>
+      <label data-t="lblLock"></label>
+      <select id="lock-in" disabled><option value="0" data-t="optUnlocked"></option><option value="1" data-t="optLocked"></option></select>
+      <button id="btn-locksel" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-cruise" hidden>
+      <label data-t="lblCruise"></label>
+      <select id="cruise-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-cruise" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-zero" hidden>
+      <label data-t="lblZero"></label>
+      <select id="zero-in" disabled><option value="0" data-t="zeroOnly"></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+      <button id="btn-zero" data-t="btnSend" disabled></button>
+    </div>
+    <p class="hint" data-t="fnAppNote"></p>
+  </div>
+
+  <div class="card" id="tu-card" hidden>
+    <h2 data-t="tuTitle"></h2>
+    <div class="btns">
+      <button class="primary span2" id="btn-regiontoggle" disabled></button>
+      <button class="span2" id="btn-speedlock" disabled hidden></button>
+      <button class="span2" id="btn-diag" data-t="btnDiag" disabled></button>
+    </div>
+    <p class="hint" id="tu-model-hint"></p>
+    <p class="hint" id="tu-hint" data-t="tuHint"></p>
+    <p class="hint" id="tu-behavior" data-t="tuBehavior"></p>
+  </div>
+
+  <div class="card" id="tele-card">
+    <h2 data-t="teleTitle"></h2>
+    <p class="hint" id="tele-empty" data-t="teleEmpty"></p>
+    <div class="grid">
+      <div class="tile" id="tile-batt" hidden><b id="tv-batt">-</b><small data-t="ttBatt"></small></div>
+      <div class="tile" id="tile-speed" hidden><b id="tv-speed">-</b><small data-t="ttSpeed"></small></div>
+      <div class="tile" id="tile-mode" hidden><b id="tv-mode">-</b><small data-t="ttMode"></small></div>
+      <div class="tile" id="tile-range" hidden><b id="tv-range">-</b><small data-t="ttRange"></small></div>
+      <div class="tile" id="tile-total" hidden><b id="tv-total">-</b><small data-t="ttTotal"></small></div>
+      <div class="tile" id="tile-volt" hidden><b id="tv-volt">-</b><small data-t="ttVolt"></small></div>
+      <div class="tile" id="tile-curr" hidden><b id="tv-curr">-</b><small data-t="ttCurr"></small></div>
+      <div class="tile" id="tile-temp" hidden><b id="tv-temp">-</b><small data-t="ttTemp"></small></div>
+      <div class="tile" id="tile-health" hidden><b id="tv-health">-</b><small data-t="ttHealth"></small></div>
+      <div class="tile" id="tile-cycles" hidden><b id="tv-cycles">-</b><small data-t="ttCycles"></small></div>
+      <div class="tile" id="tile-fault" hidden><b id="tv-fault">-</b><small data-t="ttFault"></small></div>
+      <div class="tile" id="tile-fw-meter" hidden><b id="tv-fw-meter">-</b><small data-t="ttFwMeter"></small></div>
+      <div class="tile" id="tile-fw-bldc" hidden><b id="tv-fw-bldc">-</b><small data-t="ttFwBldc"></small></div>
+      <div class="tile" id="tile-fw-bms" hidden><b id="tv-fw-bms">-</b><small data-t="ttFwBms"></small></div>
+      <div class="tile" id="tile-fw-screen" hidden><b id="tv-fw-screen">-</b><small data-t="ttFwScreen"></small></div>
+      <div class="tile" id="tile-fw-uwb" hidden><b id="tv-fw-uwb">-</b><small data-t="ttFwUwb"></small></div>
+    </div>
+    <p class="hint" data-t="teleHint"></p>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h2 data-t="moreTitle"></h2><button type="button" class="help-btn" data-help="more" aria-label="Info">?</button></div>
+    <p class="hint" id="more-empty" data-t="moreEmpty"></p>
+    <div class="set-row" id="row-drive" hidden>
+      <label data-t="lblDrive"></label>
+      <select id="drive-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-drive" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-accel" hidden>
+      <label data-t="lblAccel"></label>
+      <select id="accel-in" disabled><option value="3" data-t="accNormal"></option><option value="5" data-t="accTurbo"></option></select>
+      <button id="btn-accel" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-ers" hidden>
+      <label data-t="lblErs"></label>
+      <select id="ers-in" disabled><option value="0" data-t="ers0"></option><option value="30" data-t="ers30"></option><option value="60" data-t="ers60"></option><option value="90" data-t="ers90"></option></select>
+      <button id="btn-ers" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-limitc" hidden>
+      <label data-t="lblLimitC"></label>
+      <input id="limitc-in" type="number" inputmode="numeric" min="0" max="127" value="20" disabled>
+      <button id="btn-limitc" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-kmalg" hidden>
+      <label data-t="lblKmAlg"></label>
+      <select id="kmalg-in" disabled><option value="0" data-t="km0"></option><option value="1" data-t="km1"></option><option value="2" data-t="km2"></option><option value="3" data-t="km3"></option><option value="4" data-t="km4"></option></select>
+      <button id="btn-kmalg" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-lowpow" hidden>
+      <label data-t="lblLowPow"></label>
+      <select id="lowpow-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-lowpow" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-chlimit" hidden>
+      <label data-t="lblChLimit"></label>
+      <input id="chlimit-in" type="number" inputmode="numeric" min="0" max="100" value="100" disabled>
+      <button id="btn-chlimit" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-locktime" hidden>
+      <label data-t="lblLockTime"></label>
+      <input id="locktime-in" type="number" inputmode="numeric" min="0" max="255" value="0" disabled>
+      <button id="btn-locktime" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-osc" hidden>
+      <label data-t="lblOsc"></label>
+      <select id="osc-in" disabled><option value="0" data-t="optOff"></option><option value="1" data-t="optOn"></option></select>
+      <button id="btn-osc" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-tcs" hidden>
+      <label data-t="lblTcs"></label>
+      <select id="tcs-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-tcs" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-slope" hidden>
+      <label data-t="lblSlope"></label>
+      <select id="slope-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-slope" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-lrange" hidden>
+      <label data-t="lblLrange"></label>
+      <select id="lrange-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-lrange" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-tail" hidden>
+      <label data-t="lblTail"></label>
+      <select id="tail-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-tail" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-alight" hidden>
+      <label data-t="lblAutoLight"></label>
+      <select id="alight-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-alight" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-tsound" hidden>
+      <label data-t="lblTurnSound"></label>
+      <select id="tsound-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-tsound" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-unit" hidden>
+      <label data-t="lblUnit"></label>
+      <select id="unit-in" disabled><option value="0" data-t="optKm"></option><option value="1" data-t="optMph"></option></select>
+      <button id="btn-unit" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-prox" hidden>
+      <label data-t="lblProx"></label>
+      <select id="prox-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-prox" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-ambient" hidden>
+      <label data-t="lblAmbient"></label>
+      <select id="ambient-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-ambient" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-logo" hidden>
+      <label data-t="lblLogo"></label>
+      <select id="logo-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-logo" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-dayrun" hidden>
+      <label data-t="lblDayrun"></label>
+      <select id="dayrun-in" disabled><option value="1" data-t="optOn"></option><option value="0" data-t="optOff"></option></select>
+      <button id="btn-dayrun" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-sound" hidden>
+      <label data-t="lblSound"></label>
+      <input id="sound-in" type="number" inputmode="numeric" min="0" max="100" value="50" disabled>
+      <button id="btn-sound" data-t="btnSend" disabled></button>
+    </div>
+    <div class="set-row" id="row-tyre" hidden>
+      <label data-t="lblTyre"></label>
+      <button id="btn-tyre" data-t="btnReset" disabled></button>
+    </div>
+    <p class="hint" data-t="moreHint"></p>
+  </div>
+
+  <div class="card">
+    <h2 data-t="scTitle"></h2>
+    <p class="hint" data-t="shortcutIos"></p>
+    <div class="linkrow"><span class="lbl" data-t="scFast"></span><pre class="copy">bluefy://open?url=https%3A%2F%2FTbe Navee42.github.io%2FTbe Navee%2F%3Fdo%3Dunlock</pre></div>
+    <div class="linkrow"><span class="lbl" data-t="scSlow"></span><pre class="copy">bluefy://open?url=https%3A%2F%2FTbe Navee42.github.io%2FTbe Navee%2F%3Fdo%3Dlock</pre></div>
+    <hr class="sep">
+    <p class="hint" data-t="shortcutAndroid"></p>
+    <p class="hint" data-t="shortcutNote"></p>
+  </div>
+
+
+  <div class="card">
+    <details>
+      <summary data-t="rawTitle"></summary>
+      <p class="hint" data-t="rawHint"></p>
+      <div class="set-row">
+        <input id="raw-in" type="text" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="55 AA 00 ...">
+        <button id="btn-raw" data-t="btnSend" disabled></button>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 data-t="s6Title"></h2>
+    <div class="btns">
+      <button type="button" id="btn-copy-log" data-t="btnCopyLog"></button>
+      <button type="button" id="btn-clear-log" data-t="btnClearLog"></button>
+    </div>
+    <pre id="log"></pre>
+    <p class="hint"><span class="log-tx" data-t="logTxLegend"></span>, <span class="log-rx" data-t="logRxLegend"></span></p>
+  </div>
+
+  <footer class="foot">
+    <span class="foot-links">
+      <a id="link-guide" href="GUIDE.de.md" data-doc="GUIDE" data-t="footGuide"></a>
+      <a href="https://github.com/Tbe Navee42/Tbe Navee" target="_blank" rel="noopener" data-t="footSource"></a>
+      <a id="link-readme" href="README.md" data-doc="README" data-t="footReadme"></a>
+      <a id="link-disclaimer" href="#" data-t="footDisclaimer"></a>
+      <a id="link-license" href="LICENSE.de.md" data-doc="LICENSE" data-t="footLicense"></a>
+      <a id="link-privacy" href="PRIVACY.de.md" data-doc="PRIVACY" data-t="footPrivacy"></a>
+      <a id="link-trademarks" href="TRADEMARKS.de.md" data-doc="TRADEMARKS" data-t="footTrademarks"></a>
+    </span>
+    <span class="ver" id="build-ver"></span>
+    <a class="foot-copy" href="https://Tbe Navee42.github.io/Tbe Navee42/" target="_blank" rel="noopener">Copyright (c) 2026 Tbe Navee</a>
+  </footer>
+</div>
+
+<dialog id="doc" aria-labelledby="doc-title">
+  <div class="doc-head">
+    <h3 id="doc-title"></h3>
+    <button type="button" id="doc-x">&times;</button>
+  </div>
+  <div class="doc-body" id="doc-body"></div>
+  <div class="doc-foot">
+    <button type="button" id="doc-close" data-t="docClose"></button>
+  </div>
+</dialog>
+
+<dialog id="help" aria-labelledby="help-title">
+  <div class="doc-head">
+    <h3 id="help-title"></h3>
+    <button type="button" id="help-x">&times;</button>
+  </div>
+  <div class="doc-body" id="help-body"></div>
+  <div class="doc-foot">
+    <button type="button" id="help-close" data-t="docClose"></button>
+  </div>
+</dialog>
+
+<script src="i18n.js?v=55"></script>
+<script src="app.js?v=55"></script>
+</body>
+</html>
